@@ -6,23 +6,34 @@ import javax.persistence.Id;
 @Entity
 public class TnbDao {
 
-  @Id String tnb;
+    @Id
+    String tnb;
 
-  String name;
+    String name;
 
-  public String getTnb() {
-    return tnb;
-  }
+    boolean isTnb;
 
-  public void setTnb(String tnb) {
-    this.tnb = tnb;
-  }
+    public boolean isTnb() {
+        return isTnb;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public void setIsTnb(boolean isTnb) {
+        this.isTnb = isTnb;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public String getTnb() {
+        return tnb;
+    }
+
+    public void setTnb(String tnb) {
+        this.tnb = tnb;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

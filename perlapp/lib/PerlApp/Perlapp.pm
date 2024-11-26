@@ -54,21 +54,27 @@ sub getTnbList
 	my ($self, $json) = @_;
 	my $param = $json->{params};
 
+    # get all tnbs
 	$logger->info("Fetching TNB list from the database");
 	my $sth = $db->prepare("SELECT * FROM tnbs");
 	$sth->execute();
 	my $tnbs_from_db = $sth->fetchall_arrayref({});
 	my $tnb;
 
+    # get number from request
 	my $number = $param->{number};
 
+    # get tnb if number is provided
 	if ($number) {
 		$sth = $db->prepare("SELECT tnb FROM tnbs WHERE tnb = ?");
 		$sth->execute($number);
 		($tnb, undef) = $sth->fetchrow_array();
 	}
 
+    # new array
 	my @tnbs;
+
+	# add tnb to array?
 	push(@tnbs, {tnb => "D001", name => "Deutsche Telekom", isTnb => (defined $tnb && $tnb eq "D001" ? JSON::true : JSON::false)});
 	foreach (@{$tnbs_from_db}) {
 		if ($_->{tnb} =~/(D146|D218|D248)/) {
@@ -79,8 +85,10 @@ sub getTnbList
 		};
 	}
 
+    # sort array by name
 	@tnbs = sort {lc $a->{name} cmp lc $b->{name}} @tnbs;
 
+    # return sorted array with 200
 	return {faultCode => "200", faultString => "Method success", tnbs => \@tnbs};
 }
 

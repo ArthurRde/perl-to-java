@@ -7,6 +7,8 @@ import javax.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.lang.Integer.parseInt;
+
 @Stateless
 public class DatabaseConnection {
 
@@ -23,6 +25,13 @@ public class DatabaseConnection {
   @SuppressWarnings("unchecked")
   public List<TnbDao> getAllTnbs() {
     Query query = entityManager.createNativeQuery("SELECT * FROM tnbs", TnbDao.class);
+    return query.getResultList();
+  }
+
+  @SuppressWarnings("unchecked")
+  public List<TnbDao> getTnbsByNumber(String number) {
+    parseInt(number);
+    Query query = entityManager.createNativeQuery("SELECT * FROM tnbs WHERE tnb = ?",number);
     return query.getResultList();
   }
 }
